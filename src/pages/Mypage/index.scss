@@ -1,0 +1,212 @@
+@import "../../assets/scss/mixins";
+
+.mypage {
+  background: url(../../assets/images/MyPage/mypage_pc.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  min-height: calc(100vh - 83px);
+  padding: 0 20px;
+  color: #595757;
+
+  @include mobile {
+    min-height: calc(100vh - 240px);
+    background: #fff;
+  }
+
+  &__subjects {
+    margin: 26px 0;
+    table {
+      border-collapse: collapse;
+      border-radius: 1em;
+      overflow: hidden;
+      margin: 0 auto;
+      tr {
+        &:last-child {
+          td {
+            padding-bottom: 5px;
+          }
+        }
+      }
+      th {
+        background-color: #fff;
+        padding: 0 10px;
+        &:first-child {
+          background-color: rgba(255, 255, 255, 0.65);
+          text-align: left;
+        }
+        &:last-child {
+          background-color: rgba(255, 255, 255, 1);
+          border-left: 3px solid #e4f7e6;
+          @include mobile {
+            border: none;
+          }
+        }
+      }
+      td {
+        background-color: #fff;
+        padding: 0 10px;
+        &:first-child {
+          background-color: rgba(255, 255, 255, 0.65);
+          color: #a5a072;
+          font-size: 0.625rem;
+          text-align: left;
+          white-space: nowrap;
+        }
+        &:nth-child(2) {
+          text-align: center;
+        }
+        &:last-child {
+          background-color: rgba(255, 255, 255, 1);
+          padding: 0 10px 0 8px;
+          border-left: 3px solid #e4f7e6;
+          @include mobile {
+            border: none;
+          }
+        }
+      }
+    }
+  }
+
+  &__newest {
+    margin: 26px 0;
+    table {
+      border-collapse: collapse;
+      border-radius: 1em;
+      overflow: hidden;
+      margin: 0 auto;
+      text-align: center;
+      margin-bottom: 10px;
+      tr {
+        &:first-child {
+          td {
+            padding-top: 15px !important;
+          }
+        }
+        &:last-child {
+          td {
+            padding-bottom: 15px !important;
+          }
+        }
+      }
+      td {
+        background-color: #fff;
+        text-align: center;
+        &:first-child {
+          background-color: rgba(255, 255, 255, 0.65);
+          color: #a5a072;
+          font-size: 0.625rem;
+        }
+        &:last-child {
+          background-color: rgba(255, 255, 255, 1);
+          color: #231815;
+          font-size: 0.875rem;
+          font-weight: 600;
+          border-left: 3px solid #e4f7e6;
+          @include mobile {
+            border: none;
+          }
+        }
+      }
+    }
+  }
+
+  &__statistical {
+    ul {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      li {
+        font-size: 0.75rem;
+        padding: 9px 26px;
+        border-top-right-radius: 15px;
+        border-top-left-radius: 15px;
+        background: #fffcf8;
+        color: #a5a072;
+        opacity: 0.65;
+        cursor: pointer;
+        display: inline-block;
+        white-space: nowrap;
+
+        &.active {
+          opacity: 1;
+        }
+
+        &.national-exam {
+          background-color: #fffcf8;
+        }
+        &.trial-exam {
+          background-color: #fafaff;
+        }
+        &.mini-test {
+          background-color: #fafffa;
+        }
+      }
+    }
+
+    &--tab {
+      display: none;
+
+      &.active {
+        display: block;
+      }
+      table {
+        width: 100%;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        overflow: hidden;
+        font-size: 0.625rem;
+        box-shadow: 5px 5px 10px rgba(1, 1, 1, 0.2);
+
+        tr {
+          // &:nth-child(odd) {
+          //   background: #fff;
+          // }
+          // &:nth-child(even) {
+          //   background: #f7f7f7;
+          // }
+          td {
+            padding: 12px 0;
+            text-align: center;
+          }
+          th {
+            padding: 12px 0;
+            color: #a5a072;
+            &.national-exam-bg {
+              background-color: #fffcf8;
+            }
+            &.trial-exam-bg {
+              background-color: #fafaff;
+            }
+            &.mini-test-bg {
+              background-color: #fafffa;
+            }
+          }
+        }
+
+        .statistical {
+          .statistical-child {
+            p {
+              font-size: 0.625rem;
+              color: #000000;
+              margin-bottom: 5px;
+
+              &.failed {
+                color: #e50012;
+              }
+
+              &:first-child {
+                color: #a5a072;
+                margin-bottom: 10px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+@import "../../assets/scss/mixins";
+.nav {
+  // margin-top: 35px;
+  ul {
+    display: block;
+    li {
+      cursor: pointer;
+      &:hover {
+        background: #fffcf8;
+      }
+      a {
+        padding: 10px 20px;
+        font-size: 0.5rem;
+        color: #a5a072;
+        white-space: nowrap;
+        display: block;
+        text-align: center;
+      }
+    }
+  }
+}

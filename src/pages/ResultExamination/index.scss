@@ -1,0 +1,13 @@
+@import "../../assets/scss/mixins";
+
+.result {
+  background-color: #f7f7f7;
+  min-height: calc(100vh - 83px);
+  padding: 20px;
+  color: #595757;
+
+  @include mobile {
+    min-height: calc(100vh - 240px);
+    padding: 20px 0;
+  }
+}

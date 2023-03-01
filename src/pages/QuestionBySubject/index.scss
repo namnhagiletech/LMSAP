@@ -1,0 +1,86 @@
+@import "../../assets/scss/mixins";
+
+.question-subject {
+  background: url("../../assets/images/Subject/subject_pc.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  min-height: calc(100vh - 83px);
+
+  @include mobile {
+    background: #fff;
+    min-height: calc(100vh - 240px);
+  }
+
+  &__content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0;
+
+    @include tablet {
+      flex-direction: row;
+      gap: 20px;
+      padding-top: 30px;
+    }
+
+    @include pc {
+      gap: 80px;
+    }
+  }
+
+  &__selection {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 20px;
+
+    @include mobile {
+      background: #fff;
+      height: auto;
+      flex-direction: column;
+
+      &:last-child {
+        margin-bottom: 100px;
+      }
+    }
+
+    &__subject {
+      width: 300px;
+      background: #fffcf8;
+      border: 3px solid #707070;
+      border-radius: 15px;
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: #595757;
+      text-align: center;
+      padding: 10px 20px;
+      cursor: pointer;
+      position: relative;
+
+      &.special {
+        &::before {
+          content: "衛生管理";
+          width: 100px;
+          height: 24px;
+          top: 0;
+          left: 0;
+          position: absolute;
+          color: #fff;
+          background: linear-gradient(#f290a1, #ed5d8e);
+          font-size: 1rem;
+          line-height: 24px;
+          transform: translate(-3px, -14px);
+          border-radius: 15px 15px 15px 0;
+        }
+      }
+    }
+  }
+}

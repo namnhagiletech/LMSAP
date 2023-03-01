@@ -1,0 +1,30 @@
+@import "../../assets/scss/mixins";
+.title {
+  background: rgba(255, 255, 255, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  @include mobile {
+    background: none;
+  }
+
+  &__main {
+    font-size: 1.5rem;
+    color: #595757;
+    font-weight: 500;
+  }
+
+  &__sub {
+    color: #a5a072;
+
+    &.select {
+      color: #f4b0ae;
+    }
+
+    &.trial {
+      color: #2f58cc;
+    }
+  }
+}

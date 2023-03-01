@@ -1,0 +1,34 @@
+@import "../../assets/scss/mixins";
+
+.header {
+  &.signin {
+    background: #fffcf8;
+  }
+
+  @include mobile {
+    box-shadow: none;
+    background: #fffcf8;
+    background-image: url(../../assets/images/Login/login_header_mobile.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    // min-height: 240px;
+
+    &.signin {
+      background: #fff;
+      background-image: url(../../assets/images/Login/login_header_mobile_signin.svg);
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    &.in-test {
+      background: #f7f7f7;
+      background-image: url(../../assets/images/Login/login_header_mobile_signin.svg);
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+  }
+
+  .menu-icon {
+    cursor: pointer;
+  }
+}

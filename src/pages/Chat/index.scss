@@ -1,0 +1,94 @@
+@import "../../assets/scss/mixins";
+
+.chat {
+  min-height: calc(100vh - 83px);
+  // background-color: #f7f7f7;
+  border-left: 1px solid rgba(7, 7, 7, 0.2);
+  color: #595757;
+
+  svg {
+    transform: rotate(0deg);
+  }
+
+  @include mobile {
+    min-height: calc(100vh - 240px);
+    background-color: #fff;
+    border: none;
+  }
+
+  &__content {
+    background: #fff;
+  }
+
+  &__title {
+    text-align: center;
+    margin: 20px 0;
+  }
+
+  &__user {
+    padding: 20px 30px;
+    cursor: pointer;
+    margin: 15px 0;
+
+    &:hover {
+      background-color: #f7f7f7;
+    }
+  }
+
+  &__box {
+    overflow-y: scroll;
+    height: 300px;
+    scroll-behavior: smooth;
+
+    .circle {
+      width: 48px;
+      height: 48px;
+      background: red;
+      border-radius: 50%;
+    }
+
+    .me {
+      background: #6ae27e;
+      display: inline-block;
+      width: 250px;
+      padding: 15px;
+      border-radius: 25px;
+      // margin-right: 25px;
+      position: relative;
+      // margin-bottom: 15px;
+
+      &::before {
+        content: "";
+        width: 0;
+        height: 0;
+        border-left: 25px solid #6ae27e;
+        border-bottom: 25px solid transparent;
+        top: 20px;
+        position: absolute;
+        right: -15px;
+      }
+    }
+
+    .friend {
+      background: #eeeeef;
+      display: inline-block;
+      width: 250px;
+      padding: 15px;
+      border-radius: 25px;
+      // margin-left: 25px;
+      position: relative;
+      // margin-bottom: 15px;
+
+      &::before {
+        content: "";
+        width: 0;
+        height: 0;
+        border-right: 25px solid #eeeeef;
+        border-bottom: 25px solid transparent;
+        top: 20px;
+        position: absolute;
+        left: -15px;
+      }
+    }
+  }
+}

@@ -1,0 +1,121 @@
+.button {
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+
+  &.text-black {
+    color: #595757;
+  }
+
+  &.special-semi-brown {
+    color: #a5a072;
+    font-size: 10px;
+  }
+
+  &.special-red {
+    color: #e50012;
+    font-size: 1.5rem;
+  }
+
+  &.special-black {
+    color: #231815;
+    font-size: 1.5rem;
+  }
+
+  &.special {
+    color: #595757;
+    height: 25px;
+  }
+
+  &.small {
+    width: 115px;
+  }
+
+  &.medium {
+    width: 140px;
+  }
+
+  &.large {
+    width: 170px;
+  }
+
+  &.huge {
+    width: 200px;
+  }
+
+  &.full {
+    width: 100%;
+  }
+
+  &.white {
+    background: #ffffff;
+  }
+
+  &.gray {
+    background: #323333;
+  }
+
+  &.milk {
+    background: #fffcf8;
+  }
+
+  &.bluesky {
+    background: #7abced;
+  }
+
+  &.purple {
+    background: #8d20d3;
+  }
+
+  &.semi-purple {
+    background: #6f87ef;
+  }
+
+  &.semi-black {
+    background: #717071;
+  }
+
+  &.semi-orange {
+    background: #ffe2d7;
+  }
+
+  &.light-gray {
+    background: #eeeeef;
+  }
+
+  &.gradient-pink {
+    background-image: linear-gradient(
+      to right,
+      #f9aab7 0%,
+      #f9aab7 51%,
+      #ff496d 100%
+    );
+  }
+
+  &.gradient-gray {
+    background-image: linear-gradient(
+      to right,
+      #e0e0e0 0%,
+      #c0bfbf 51%,
+      #a09f9f 100%
+    );
+  }
+
+  &.gradient-blue {
+    background-image: linear-gradient(
+      to right,
+      #2f58cc 0%,
+      #769fe3 51%,
+      #bae3f9 100%
+    );
+  }
+
+  &.shadow {
+    box-shadow: 5px 5px 10px rgba(1, 1, 1, 0.2);
+  }
+}
