@@ -1,9 +1,7 @@
-import { LOCAL_STORAGE_KEY } from "../constants/LOCAL_STORAGE_KEY";
+import { getAccessToken } from 'src/store/auth/useAuthStore';
 
 const CheckAuth = () => {
-  let token: string | null = localStorage.getItem(
-    LOCAL_STORAGE_KEY.ACCESS_TOKEN
-  );
+  let token: string | null = getAccessToken();
   return token ? true : false;
 };
 

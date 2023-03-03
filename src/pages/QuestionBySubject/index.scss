@@ -1,7 +1,7 @@
-@import "../../assets/scss/mixins";
+@import '../../../src/styles/mixins';
 
 .question-subject {
-  background: url("../../assets/images/Subject/subject_pc.png");
+  background: url('../../assets/images/Subject/subject_pc.png');
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -67,7 +67,7 @@
 
       &.special {
         &::before {
-          content: "衛生管理";
+          content: '衛生管理';
           width: 100px;
           height: 24px;
           top: 0;

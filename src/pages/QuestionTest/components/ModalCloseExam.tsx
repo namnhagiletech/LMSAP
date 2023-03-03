@@ -1,7 +1,6 @@
-import { Modal } from "antd";
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { FooterModalWrapper, ModalCustom } from "../styled";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { FooterModalWrapper, ModalCustom } from '../styled';
 
 interface IModalCloseExamProps {
   isOpenModalFinish: boolean;
@@ -20,15 +19,15 @@ const ModalCloseExam: React.FunctionComponent<IModalCloseExamProps> = ({
     return (
       <FooterModalWrapper>
         <div
-          className="button-modal"
+          className='button-modal'
           onClick={() => {
             onOk();
-            naigate("/");
+            naigate('/');
           }}
         >
           保存して中断する
         </div>
-        <div className="button-modal" onClick={onCancel}>
+        <div className='button-modal' onClick={onCancel}>
           キャンセル
         </div>
       </FooterModalWrapper>
@@ -36,7 +35,7 @@ const ModalCloseExam: React.FunctionComponent<IModalCloseExamProps> = ({
   };
   return (
     <ModalCustom
-      title=""
+      title=''
       open={isOpenModalFinish}
       onOk={onOk}
       onCancel={onCancel}

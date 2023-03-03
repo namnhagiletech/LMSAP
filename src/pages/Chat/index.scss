@@ -1,4 +1,4 @@
-@import "../../assets/scss/mixins";
+@import '../../../src/styles/mixins';
 
 .chat {
   min-height: calc(100vh - 83px);
@@ -58,7 +58,7 @@
       // margin-bottom: 15px;
 
       &::before {
-        content: "";
+        content: '';
         width: 0;
         height: 0;
         border-left: 25px solid #6ae27e;
@@ -80,7 +80,7 @@
       // margin-bottom: 15px;
 
       &::before {
-        content: "";
+        content: '';
         width: 0;
         height: 0;
         border-right: 25px solid #eeeeef;

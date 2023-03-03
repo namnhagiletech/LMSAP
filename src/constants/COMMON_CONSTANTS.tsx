@@ -1,29 +1,28 @@
-import HomePageIcon from "../assets/icons/Homepage";
-import ExaminationIcon from "../assets/icons/Examination";
-import BookmarkIcon from "../assets/icons/Bookmark";
-import MyPageIcon from "../assets/icons/Mypage";
-import ChatIcon from "../assets/icons/Chat";
+import HomePageIcon from '../assets/icons/Homepage';
+import ExaminationIcon from '../assets/icons/Examination';
+import BookmarkIcon from '../assets/icons/Bookmark';
+import MyPageIcon from '../assets/icons/Mypage';
 
 export const MENU = [
   {
-    name: "ホーム",
+    name: 'ホーム',
     img: <HomePageIcon />,
-    path: "/",
+    path: '/',
   },
   {
-    name: "眼 テス",
+    name: '眼 テス',
     img: <ExaminationIcon />,
-    path: "/examination",
+    path: '/examination',
   },
   {
-    name: "トブックマーク",
+    name: 'トブックマーク',
     img: <BookmarkIcon />,
-    path: "/",
+    path: '/',
   },
   {
-    name: "マイページ",
+    name: 'マイページ',
     img: <MyPageIcon />,
-    path: "/mypage",
+    path: '/mypage',
   },
   // {
   //   name: 'チャット',

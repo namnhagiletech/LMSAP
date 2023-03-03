@@ -1,12 +1,13 @@
-import { Form } from "antd";
-import { isEqualArray } from "../../helpers/utils";
-import { useMemo, useState } from "react";
+/* eslint-disable react/jsx-key */
+import { Form } from 'antd';
+import { isEqualArray } from '../../helpers/utils';
+import { useMemo, useState } from 'react';
 
-import Confirmation from "./components/Confirmation";
-import Question from "./components/Question";
-import ResultTest from "./components/ResultTest";
-import { DataList } from "./FakeData";
-import { QuestionTestWrapper } from "./styled";
+import Confirmation from './components/Confirmation';
+import Question from './components/Question';
+import ResultTest from './components/ResultTest';
+import { DataList } from './FakeData';
+import { QuestionTestWrapper } from './styled';
 
 const QuestionTest = () => {
   const [form] = Form.useForm();
@@ -26,7 +27,7 @@ const QuestionTest = () => {
       if (!!item1 && !!item1.length) {
         let optionArr = [];
         item1.map((item2) => {
-          const list = item2.split(" ");
+          const list = item2.split(' ');
           optionArr.push(+list[0]);
         });
         return {
@@ -63,7 +64,7 @@ const QuestionTest = () => {
           listAnswer: item.listAnswer.sort(() => Math.random() - 0.5),
         };
       }),
-    []
+    [],
   );
 
   let correctOption = ListQuestion.map((item) => {

@@ -1,26 +1,21 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import "./assets/scss/index.scss";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
-import { ApolloProvider } from "@apollo/client";
-import client from "./services/respository/config/apolloClient";
-import { ThemeProvider } from "./contexts/contexts";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import './styles/globals.scss';
 
-const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
-);
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
+import { ApolloProvider } from '@apollo/client';
+import client from './apollo/apolloClient';
+import { Provider } from 'jotai';
+
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
 root.render(
-  <React.StrictMode>
-    <ApolloProvider client={client}>
-      <ThemeProvider>
-        <App />
-      </ThemeProvider>
-    </ApolloProvider>
-  </React.StrictMode>
+  <ApolloProvider client={client}>
+    <Provider>
+      <App />
+    </Provider>
+  </ApolloProvider>,
 );
 
 // If you want to start measuring performance in your app, pass a function
