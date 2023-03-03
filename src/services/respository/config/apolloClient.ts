@@ -7,15 +7,15 @@ import {
   FetchResult,
   Observable,
   GraphQLRequest,
-} from "@apollo/client";
-import { setContext } from "@apollo/client/link/context";
-import { onError } from "@apollo/client/link/error";
-import { GraphQLError } from "graphql";
-import { LOCAL_STORAGE_KEY } from "../../../constants/LOCAL_STORAGE_KEY";
+} from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
+import { onError } from '@apollo/client/link/error';
+import { GraphQLError } from 'graphql';
+import { LOCAL_STORAGE_KEY } from '../../../constants/LOCAL_STORAGE_KEY';
 
 interface AccessToken {
-  accessToken: string,
-  refreshToken: string
+  accessToken: string;
+  refreshToken: string;
 }
 
 const REFRESH_TOKEN_MUTATION = gql`
@@ -28,17 +28,17 @@ const REFRESH_TOKEN_MUTATION = gql`
 `;
 
 function isRefreshRequest(operation: GraphQLRequest) {
-  return operation.operationName === "refreshTokens";
+  return operation.operationName === 'refreshTokens';
 }
 
 function returnTokenDependingOnOperation(operation: GraphQLRequest) {
   if (isRefreshRequest(operation))
-    return localStorage.getItem(LOCAL_STORAGE_KEY.REFRESH_TOKEN) || "";
-  else return localStorage.getItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN) || "";
+    return localStorage.getItem(LOCAL_STORAGE_KEY.REFRESH_TOKEN) || '';
+  else return localStorage.getItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN) || '';
 }
 
 const httpLink = createHttpLink({
-  uri: 'http://43.206.141.124:4000/graphql',
+  uri: process.env.REACT_APP_API_ENDPOINT,
 });
 
 const authLink = setContext((operation, { headers }) => {
@@ -46,7 +46,7 @@ const authLink = setContext((operation, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : "",
+      authorization: token ? `Bearer ${token}` : '',
     },
   };
 });
@@ -56,8 +56,8 @@ const errorLink = onError(
     if (graphQLErrors) {
       for (let err of graphQLErrors) {
         switch (err.extensions.code) {
-          case "UNAUTHENTICATED":
-            if (operation.operationName === "refreshTokens") return;
+          case 'UNAUTHENTICATED':
+            if (operation.operationName === 'refreshTokens') return;
             const observable = new Observable<FetchResult<Record<string, any>>>(
               (observer) => {
                 (async () => {
@@ -65,7 +65,7 @@ const errorLink = onError(
                     const accessToken = await refreshToken();
 
                     if (!accessToken) {
-                      throw new GraphQLError("Empty AccessToken");
+                      throw new GraphQLError('Empty AccessToken');
                     }
                     const oldHeaders = operation.getContext().headers;
                     operation.setContext({
@@ -105,8 +105,8 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
   defaultOptions: {
     watchQuery: {
-      fetchPolicy: "network-only",
-      nextFetchPolicy: "cache-first",
+      fetchPolicy: 'network-only',
+      nextFetchPolicy: 'cache-first',
     },
   },
 });
@@ -120,9 +120,10 @@ const refreshToken = async () => {
     });
 
     const accessToken = refreshResolverResponse.data?.refreshTokens.accessToken;
-    const refreshToken = refreshResolverResponse.data?.refreshTokens.refreshToken;
-    localStorage.setItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN, accessToken || "");
-    localStorage.setItem(LOCAL_STORAGE_KEY.REFRESH_TOKEN, refreshToken || "");
+    const refreshToken =
+      refreshResolverResponse.data?.refreshTokens.refreshToken;
+    localStorage.setItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN, accessToken || '');
+    localStorage.setItem(LOCAL_STORAGE_KEY.REFRESH_TOKEN, refreshToken || '');
 
     return accessToken;
   } catch (err) {

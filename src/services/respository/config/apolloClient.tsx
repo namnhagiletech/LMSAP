@@ -3,7 +3,7 @@ import { setContext } from '@apollo/client/link/context';
 import { LOCAL_STORAGE_KEY } from '../../../constants/LOCAL_STORAGE_KEY';
 
 const httpLink = createHttpLink({
-  uri: 'http://35.77.3.81:5000/graphql',
+  uri: process.env.REACT_APP_API_ENDPOINT,
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -12,9 +12,9 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : "",
-    }
-  }
+      authorization: token ? `Bearer ${token}` : '',
+    },
+  };
 });
 
 const client = new ApolloClient({
