@@ -1,12 +1,5 @@
-import { Modal } from "antd";
-import styled from "styled-components";
-
-export const QuestionTestWrapper = styled.div`
-  background-color: #f7f7f7;
-  height: 100%;
-  position: relative;
-  padding: 0 15px 15px;
-`;
+import { Modal } from 'antd';
+import styled from 'styled-components';
 
 export const ModalCustom = styled(Modal)`
   width: fit-content;

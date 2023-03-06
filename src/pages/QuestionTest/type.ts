@@ -1,15 +1,26 @@
 export interface QuestionType {
-  number: number;
-  questionContent: string;
-  explanation: string;
-  listAnswer: {
-    isCorrect: boolean;
-    id: number;
-    content: string;
-  }[];
+  __typename: string;
+  accountId: null;
+  answer: Answer[];
+  category: null;
+  categoryId: string;
+  chapterId: string;
+  id: string;
+  identityNumber: string;
+  level: number;
+  public: string;
+  schoolId: null;
+  status: string;
+  subjectId: string;
+  title: string;
 }
-export interface AnswerType {
-  order: number;
-  option: number[] | undefined;
-  correct: boolean;
+
+export interface Answer {
+  __typename: string;
+  explainImageOrVideo: null;
+  explainText: string;
+  id: string;
+  isCorrect: boolean;
+  questionId: string;
+  text: string;
 }
