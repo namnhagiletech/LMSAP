@@ -6,13 +6,15 @@ import { FooterWrapper, QuestionWrapper } from '../styled';
 import { QuestionType } from '../type';
 import ModalCloseExam from './ModalCloseExam';
 
+import styles from './index.module.scss';
+
 interface IQuestionProps {
   question: QuestionType;
   keyIdx: number;
   isShow: boolean;
   form: FormInstance<any>;
   backStep: () => void;
-  nextStep: () => void;
+  nextStep: (questionSelected?: any) => void;
 }
 
 const Question: React.FunctionComponent<IQuestionProps> = ({
@@ -44,15 +46,17 @@ const Question: React.FunctionComponent<IQuestionProps> = ({
           }}
         />
 
-        <div className='list-answer'>
-          {question.answer.map((item, idx) => (
-            <div key={idx} style={{ display: 'flex', fontSize: '25px' }}>
-              <div>
-                {idx + 1}. {item.text}
+        {question?.level !== 1 && (
+          <div className='list-answer'>
+            {question.answer.map((item, idx) => (
+              <div key={idx} style={{ display: 'flex', fontSize: '25px' }}>
+                <div>
+                  {idx + 1}. {item.text}
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
       <Form.Item name={`question-${keyIdx}`}>
         <Checkbox.Group disabled={showCorrectOption} className='radio-custom'>
@@ -65,7 +69,7 @@ const Question: React.FunctionComponent<IQuestionProps> = ({
                       value={`${idx + 1} ` + item.isCorrect}
                       className={item.isCorrect && showCorrectOption ? 'show-more' : undefined}
                     >
-                      <div>{item.isCorrect ? '正しい' : '誤っている'}</div>
+                      <div>{item.isCorrect ? '〇' : 'X'}</div>
                     </Checkbox>
                   </Col>
                 ))
@@ -85,9 +89,12 @@ const Question: React.FunctionComponent<IQuestionProps> = ({
       </Form.Item>
 
       {showCorrectOption && (
-        <div className='explanation'>
-          {ansersCorrect.map((it) => (
-            <div key={it.id}>{it.explainText}</div>
+        <div className={styles.explanation}>
+          {ansersCorrect?.map((it) => (
+            <div key={it.id}>
+              {it?.explainText && <p>{it.explainText}</p>}
+              {it?.explainImageOrVideo && <video src={it?.explainImageOrVideo} />}
+            </div>
           ))}
         </div>
       )}
@@ -106,7 +113,7 @@ const Question: React.FunctionComponent<IQuestionProps> = ({
         <div
           className='button-footer button-footer-next'
           onClick={() => {
-            showCorrectOption ? nextStep() : setShowCorrectOption(true);
+            showCorrectOption ? nextStep(question) : setShowCorrectOption(true);
           }}
         >
           <div>次&nbsp;</div>

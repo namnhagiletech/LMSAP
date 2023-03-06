@@ -189,12 +189,6 @@ export const QuestionWrapper = styled.div`
     cursor: pointer;
   }
 
-  .explanation {
-    display: flex;
-    justify-content: center;
-    margin: 10px 0 20px;
-  }
-
   .index-que {
     color: #a5a072;
     font-size: 40px;
@@ -258,7 +252,7 @@ export const QuestionWrapper = styled.div`
   }
 
   .radio-custom .ant-checkbox-wrapper-checked {
-    border: 2px solid blue;
+    background: #aaa;
   }
 
   .radio-custom .ant-checkbox {
@@ -266,8 +260,8 @@ export const QuestionWrapper = styled.div`
     width: 0;
   }
 
-  .show-more {
-    background-color: red !important;
+  .show-more span {
+    color: red;
   }
 `;
 

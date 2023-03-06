@@ -31,3 +31,9 @@ export const GET_QUESTION_AI = gql`
     }
   }
 `;
+
+export const SUBMIT_QUESTION_AI = gql`
+  mutation SubmitQuestionAnswer($data: SubmitQuestionAiInput!) {
+    submitAnswerQuestionAi(data: $data)
+  }
+`;
