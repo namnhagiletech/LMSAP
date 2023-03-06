@@ -76,9 +76,8 @@ const QuestionTest = () => {
 
       refListAnswer.current = convertAnswerArray(lastChoice);
 
-      if (refCurrentQuestion.current) {
+      if (refCurrentQuestion.current?.id) {
         const found = refListAnswer.current?.findLast((element: any) => element?.option?.length);
-        if (found?.submit) return;
 
         submitQuestionAi({
           variables: {
