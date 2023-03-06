@@ -110,11 +110,11 @@ const QuestionTest = () => {
           />
         ))}
 
-        {selectedQuestion === data?.getQuestionAi?.length && (
+        {/* {selectedQuestion === data?.getQuestionAi?.length && (
           <Confirmation listAnswer={refListAnswer.current} nextStep={nextStep} />
-        )}
+        )} */}
 
-        {selectedQuestion === data?.getQuestionAi?.length + 1 && (
+        {selectedQuestion === data?.getQuestionAi?.length && (
           <ResultTest
             listAnswer={refListAnswer.current}
             handleNavigate={(idx) => {
