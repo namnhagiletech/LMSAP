@@ -49,7 +49,7 @@ const FormItemCheckBoxQuestion = ({ value = [], onChange, showCorrectOption, que
                   value={`${idx + 1} ` + item.isCorrect}
                   className={item.isCorrect && showCorrectOption ? 'show-more' : undefined}
                 >
-                  <div>{item.isCorrect ? '〇' : 'X'}</div>
+                  <div>{item.isCorrect ? '正しい' : '誤っている'}</div>
                 </Checkbox>
               </Col>
             ))
