@@ -260,8 +260,12 @@ export const QuestionWrapper = styled.div`
     width: 0;
   }
 
+  .show-more {
+    background-color: red !important;
+  }
+
   .show-more span {
-    color: red;
+    color: white;
   }
 `;
 

@@ -17,6 +17,58 @@ interface IQuestionProps {
   nextStep: (questionSelected?: any) => void;
 }
 
+const FormItemCheckBoxQuestion = ({ value = [], onChange, showCorrectOption, question }: any) => {
+  const onChangeVal = (val: any) => {
+    const lastItem = val?.[val?.length - 1];
+
+    // yes no question
+    if (question.level === 1) {
+      if (lastItem === value?.[0]) {
+        return onChange([]);
+      }
+
+      return onChange([lastItem]);
+    }
+
+    onChange(val);
+  };
+
+  return (
+    <Checkbox.Group
+      value={value}
+      disabled={showCorrectOption}
+      className='radio-custom'
+      onChange={onChangeVal}
+    >
+      <Row gutter={16}>
+        {question.answer.length === 2
+          ? question.answer.map((item: any, idx: any) => (
+              <Col key={idx} span={12}>
+                <Checkbox
+                  key={idx}
+                  value={`${idx + 1} ` + item.isCorrect}
+                  className={item.isCorrect && showCorrectOption ? 'show-more' : undefined}
+                >
+                  <div>{item.isCorrect ? '〇' : 'X'}</div>
+                </Checkbox>
+              </Col>
+            ))
+          : question.answer.map((item: any, idx: any) => (
+              <Col key={idx} xs={12} md={6} sm={12}>
+                <Checkbox
+                  key={idx}
+                  value={`${idx + 1} ` + item.isCorrect}
+                  className={item.isCorrect && showCorrectOption ? 'show-more' : undefined}
+                >
+                  {idx + 1}
+                </Checkbox>
+              </Col>
+            ))}
+      </Row>
+    </Checkbox.Group>
+  );
+};
+
 const Question: React.FunctionComponent<IQuestionProps> = ({
   keyIdx,
   question,
@@ -58,34 +110,9 @@ const Question: React.FunctionComponent<IQuestionProps> = ({
           </div>
         )}
       </div>
+
       <Form.Item name={`question-${keyIdx}`}>
-        <Checkbox.Group disabled={showCorrectOption} className='radio-custom'>
-          <Row gutter={16}>
-            {question.answer.length === 2
-              ? question.answer.map((item, idx) => (
-                  <Col key={idx} span={12}>
-                    <Checkbox
-                      key={idx}
-                      value={`${idx + 1} ` + item.isCorrect}
-                      className={item.isCorrect && showCorrectOption ? 'show-more' : undefined}
-                    >
-                      <div>{item.isCorrect ? '〇' : 'X'}</div>
-                    </Checkbox>
-                  </Col>
-                ))
-              : question.answer.map((item, idx) => (
-                  <Col key={idx} xs={12} md={6} sm={12}>
-                    <Checkbox
-                      key={idx}
-                      value={`${idx + 1} ` + item.isCorrect}
-                      className={item.isCorrect && showCorrectOption ? 'show-more' : undefined}
-                    >
-                      {idx + 1}
-                    </Checkbox>
-                  </Col>
-                ))}
-          </Row>
-        </Checkbox.Group>
+        <FormItemCheckBoxQuestion showCorrectOption={showCorrectOption} question={question} />
       </Form.Item>
 
       {showCorrectOption && (
