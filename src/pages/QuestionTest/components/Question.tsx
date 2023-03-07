@@ -98,17 +98,17 @@ const Question: React.FunctionComponent<IQuestionProps> = ({
           }}
         />
 
-        {question?.level !== 1 && (
-          <div className='list-answer'>
-            {question.answer.map((item, idx) => (
-              <div key={idx} style={{ display: 'flex', fontSize: '25px' }}>
-                <div>
-                  {idx + 1}. {item.text}
-                </div>
+        {/* {question?.level !== 1 && ( */}
+        <div className='list-answer'>
+          {question.answer.map((item, idx) => (
+            <div key={idx} style={{ display: 'flex', fontSize: '25px' }}>
+              <div>
+                {idx + 1}. {item.text}
               </div>
-            ))}
-          </div>
-        )}
+            </div>
+          ))}
+        </div>
+        {/* )} */}
       </div>
 
       <Form.Item name={`question-${keyIdx}`}>
