@@ -82,7 +82,7 @@ const QuestionTest = () => {
         submitQuestionAi({
           variables: {
             data: {
-              isCorrect: found?.correct,
+              isCorrect: found?.correct ?? false,
               questionId: refCurrentQuestion.current?.id,
               subjectId: refCurrentQuestion.current?.subjectId,
             },
