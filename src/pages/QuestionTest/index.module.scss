@@ -2,5 +2,23 @@
   background-color: #f7f7f7;
   height: 100%;
   position: relative;
-  padding: 0 15px 15px;
+  padding: 40px;
+
+  @media (max-width: 768px) {
+    padding: 40px 10px;
+  }
+
+  > form {
+    margin: 0 auto;
+    max-width: 726px;
+  }
+}
+
+.btnClose {
+  display: flex;
+  justify-content: flex-end;
+  cursor: pointer;
+  svg {
+    max-width: 22px;
+  }
 }

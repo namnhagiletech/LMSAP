@@ -1,0 +1,28 @@
+.modalClose {
+  :global {
+    .ant-modal-content {
+      border-radius: 30px;
+    }
+  }
+
+  p {
+    text-align: center;
+    font-weight: 600;
+    font-size: 18px;
+  }
+}
+
+.btnActions {
+  gap: 16px;
+  margin: 30px 0 0;
+
+  div {
+    cursor: pointer;
+    border-radius: 30px;
+    padding: 12px 16px;
+    background-color: #717071;
+    width: max-content;
+    margin: 0 5px;
+    color: white;
+  }
+}

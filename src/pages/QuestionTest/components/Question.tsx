@@ -2,9 +2,7 @@ import { Checkbox, Col, Form, FormInstance, Row } from 'antd';
 import back from '../../../assets/images/back.svg';
 import next from '../../../assets/images/next.svg';
 import React, { useMemo, useState } from 'react';
-import { FooterWrapper, QuestionWrapper } from '../styled';
 import { QuestionType } from '../type';
-import ModalCloseExam from './ModalCloseExam';
 
 import styles from './index.module.scss';
 
@@ -16,6 +14,14 @@ interface IQuestionProps {
   backStep: () => void;
   nextStep: (questionSelected?: any) => void;
 }
+
+const Media = ({ url }: { url?: string }) => {
+  if (!url) return null;
+
+  if (url.includes('mp4')) return <video src={url} />;
+
+  return <img src={url} alt='' />;
+};
 
 const FormItemCheckBoxQuestion = ({ value = [], onChange, showCorrectOption, question }: any) => {
   const onChangeVal = (val: any) => {
@@ -40,27 +46,33 @@ const FormItemCheckBoxQuestion = ({ value = [], onChange, showCorrectOption, que
       className='radio-custom'
       onChange={onChangeVal}
     >
-      <Row gutter={16}>
+      <Row
+        gutter={[{ xs: 20 }, { xs: 20 }]}
+        align='middle'
+        justify={'space-between'}
+        className={styles.answerList}
+        wrap={false}
+      >
         {question.answer.length === 2
           ? question.answer.map((item: any, idx: any) => (
-              <Col key={idx} span={12}>
+              <Col key={idx} span={10}>
                 <Checkbox
                   key={idx}
                   value={`${idx + 1} ` + item.isCorrect}
                   className={item.isCorrect && showCorrectOption ? 'show-more' : undefined}
                 >
-                  <div>{item.isCorrect ? '正しい' : '誤っている'}</div>
+                  <div className={styles.txtAnswer}>{item.isCorrect ? '正しい' : '誤っている'}</div>
                 </Checkbox>
               </Col>
             ))
           : question.answer.map((item: any, idx: any) => (
-              <Col key={idx} xs={12} md={6} sm={12}>
+              <Col key={idx} xs={12} lg={6}>
                 <Checkbox
                   key={idx}
                   value={`${idx + 1} ` + item.isCorrect}
                   className={item.isCorrect && showCorrectOption ? 'show-more' : undefined}
                 >
-                  {idx + 1}
+                  <div className={styles.txtAnswer}>{idx + 1}</div>
                 </Checkbox>
               </Col>
             ))}
@@ -78,28 +90,28 @@ const Question: React.FunctionComponent<IQuestionProps> = ({
   form,
 }) => {
   const [showCorrectOption, setShowCorrectOption] = useState(false);
-  const [isOpenModalFinish, setIsOpenModalFinish] = useState(false);
 
   const ansersCorrect = useMemo(() => {
     return question.answer?.filter((answer) => answer.isCorrect);
   }, [question.answer]);
 
+  if (!isShow) return <></>;
+  console.log({
+    ansersCorrect,
+  });
+
   return (
-    <QuestionWrapper isShow={isShow}>
-      <div className='wrong-answer' onClick={() => setIsOpenModalFinish(true)}>
-        X
-      </div>
+    <div className={styles.questionWrap}>
       <div className='index-que'>Q{keyIdx}</div>
       <div className='overall-question'>
         <div
-          className='content-question'
+          className={styles.contentQuestion}
           dangerouslySetInnerHTML={{
             __html: question.title,
           }}
         />
 
-        {/* {question?.level !== 1 && ( */}
-        <div className='list-answer'>
+        <div className={styles.listAnswer}>
           {question.answer.map((item, idx) => (
             <div key={idx} style={{ display: 'flex', fontSize: '25px' }}>
               <div>
@@ -108,7 +120,6 @@ const Question: React.FunctionComponent<IQuestionProps> = ({
             </div>
           ))}
         </div>
-        {/* )} */}
       </div>
 
       <Form.Item name={`question-${keyIdx}`}>
@@ -117,47 +128,47 @@ const Question: React.FunctionComponent<IQuestionProps> = ({
 
       {showCorrectOption && (
         <div className={styles.explanation}>
-          {ansersCorrect?.map((it) => (
-            <div key={it.id}>
-              {it?.explainText && <p>{it.explainText}</p>}
-              {it?.explainImageOrVideo && <video src={it?.explainImageOrVideo} />}
-            </div>
-          ))}
+          <div className={styles.explainTitle}>Explain</div>
+
+          <div className={styles.explainBody}>
+            {ansersCorrect?.map((it) => (
+              <div key={it.id}>
+                <Media url={it?.explainImageOrVideo ?? ''} />
+
+                {it?.explainText && (
+                  <p
+                    className={styles.explainText}
+                    dangerouslySetInnerHTML={{
+                      __html: it.explainText,
+                    }}
+                  />
+                )}
+              </div>
+            ))}
+          </div>
         </div>
       )}
 
-      <FooterWrapper>
-        {keyIdx !== 1 ? (
-          <div className='button-footer button-footer-back' onClick={backStep}>
+      <Row align={'middle'} justify='center' wrap={false} className={styles.btnActions}>
+        {keyIdx !== 1 && (
+          <button className={styles.btn} onClick={backStep}>
             <img src={back} alt='' />
-
             <div>&nbsp;戻る</div>
-          </div>
-        ) : (
-          <div />
+          </button>
         )}
 
-        <div
-          className='button-footer button-footer-next'
+        <button
+          className={styles.btn}
           onClick={() => {
             showCorrectOption ? nextStep(question) : setShowCorrectOption(true);
           }}
+          // disabled={showCorrectOption}
         >
           <div>次&nbsp;</div>
           <img src={next} alt='' />
-        </div>
-      </FooterWrapper>
-
-      <ModalCloseExam
-        isOpenModalFinish={isOpenModalFinish}
-        onOk={() => {
-          setIsOpenModalFinish(false);
-        }}
-        onCancel={() => {
-          setIsOpenModalFinish(false);
-        }}
-      />
-    </QuestionWrapper>
+        </button>
+      </Row>
+    </div>
   );
 };
 

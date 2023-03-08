@@ -1,10 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable react/jsx-key */
 import { Form, Spin } from 'antd';
 import { isEqualArray } from '../../helpers/utils';
 import { useMemo, useRef, useState } from 'react';
 
-import Confirmation from './components/Confirmation';
 import Question from './components/Question';
 import ResultTest from './components/ResultTest';
 import { useMutation, useQuery } from '@apollo/client';
@@ -12,7 +9,8 @@ import { GET_QUESTION_AI, SUBMIT_QUESTION_AI } from 'src/services/question-ai';
 
 import styles from './index.module.scss';
 import { Answer, QuestionType } from './type';
-import { useRequest } from 'ahooks';
+import IconClose from 'src/components/icons/IconClose';
+import ModalCloseExam from './ModalCloseExam/ModalCloseExam';
 
 const QuestionTest = () => {
   const [form] = Form.useForm();
@@ -98,31 +96,39 @@ const QuestionTest = () => {
 
   return (
     <div className={styles.wrap}>
-      <Form form={form}>
-        {data?.getQuestionAi?.map((question: QuestionType, idx: any) => (
-          <Question
-            isShow={idx === selectedQuestion}
-            question={question}
-            keyIdx={idx + 1}
-            nextStep={nextStep}
-            backStep={backStep}
-            form={form}
-          />
-        ))}
+      <div>
+        <ModalCloseExam>
+          <span className={styles.btnClose}>
+            <IconClose />
+          </span>
+        </ModalCloseExam>
+        <Form form={form}>
+          {data?.getQuestionAi?.map((question: QuestionType, idx: any) => (
+            <Question
+              key={question?.id}
+              isShow={idx === selectedQuestion}
+              question={question}
+              keyIdx={idx + 1}
+              nextStep={nextStep}
+              backStep={backStep}
+              form={form}
+            />
+          ))}
 
-        {/* {selectedQuestion === data?.getQuestionAi?.length && (
+          {/* {selectedQuestion === data?.getQuestionAi?.length && (
           <Confirmation listAnswer={refListAnswer.current} nextStep={nextStep} />
         )} */}
 
-        {selectedQuestion === data?.getQuestionAi?.length && (
-          <ResultTest
-            listAnswer={refListAnswer.current}
-            handleNavigate={(idx) => {
-              setSelectedQuestion(idx);
-            }}
-          />
-        )}
-      </Form>
+          {selectedQuestion === data?.getQuestionAi?.length && (
+            <ResultTest
+              listAnswer={refListAnswer.current}
+              handleNavigate={(idx) => {
+                setSelectedQuestion(idx);
+              }}
+            />
+          )}
+        </Form>
+      </div>
     </div>
   );
 };

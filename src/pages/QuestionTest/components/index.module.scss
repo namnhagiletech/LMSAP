@@ -1,4 +1,140 @@
 .explanation {
-  margin: 10px auto 20px;
-  max-width: 500px;
+  margin: 60px 0;
+  text-align: center;
+  border-radius: 20px;
+  background-color: #fff;
+  overflow: hidden;
+  box-shadow: 0 0 20px 20px rgba(0, 0, 0, 0.01);
+
+  p {
+    margin: 10px 0 0;
+    font-size: 18px;
+    color: #242424;
+  }
+  video {
+    margin: 0 auto;
+  }
+
+  .explainTitle {
+    padding: 14px;
+    background: #ffe2d7;
+    font-size: 22px;
+    font-weight: bold;
+    color: #a59f72;
+  }
+
+  .explainBody {
+    padding: 20px;
+  }
+}
+
+.btnActions {
+  gap: 30px;
+  button {
+    color: #101010;
+  }
+}
+
+.btn {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-weight: 600;
+}
+
+.questionWrap {
+  text-align: center;
+  max-width: 695px;
+  margin: 0 auto;
+
+  .contentQuestion {
+    font-size: 24.5px;
+    color: #595757;
+  }
+
+  .listAnswer {
+    color: #595757;
+    margin: 50px 0 35px;
+  }
+
+  :global {
+    .wrong-answer {
+      color: #717071;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      font-weight: 700;
+      justify-content: end;
+      cursor: pointer;
+    }
+
+    .index-que {
+      color: #a5a072;
+      font-size: 40px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .ant-checkbox-group {
+      width: 100%;
+    }
+
+    .ant-form-item {
+      width: 100%;
+    }
+
+    .overall-question {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-height: 400px;
+      overflow-y: auto;
+      width: 100%;
+
+      @media only screen and (max-width: 600px) {
+        max-height: 300px;
+      }
+    }
+
+    .radio-custom .ant-checkbox-wrapper {
+      border: 1px solid #e3e3e3;
+      border-radius: 50px;
+      height: 35px;
+      background-color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .radio-custom .ant-checkbox-wrapper-checked {
+      background: #aaa;
+    }
+
+    .radio-custom .ant-checkbox {
+      z-index: -1;
+      width: 0;
+    }
+
+    .show-more {
+      background-color: red !important;
+    }
+
+    .show-more span {
+      color: white;
+    }
+  }
+}
+
+.answerList {
+  width: 100%;
+}
+
+.txtAnswer {
+  color: #231814;
+  font-size: 16px;
+  font-weight: 400;
 }
