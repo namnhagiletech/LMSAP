@@ -47,15 +47,14 @@ const FormItemCheckBoxQuestion = ({ value = [], onChange, showCorrectOption, que
       onChange={onChangeVal}
     >
       <Row
-        gutter={[{ xs: 20 }, { xs: 20 }]}
+        gutter={[{ xs: 10, md: 20 }, {}]}
         align='middle'
         justify={'space-between'}
         className={styles.answerList}
-        wrap={false}
       >
         {question.answer.length === 2
           ? question.answer.map((item: any, idx: any) => (
-              <Col key={idx} span={10}>
+              <Col key={idx} span={6}>
                 <Checkbox
                   key={idx}
                   value={`${idx + 1} ` + item.isCorrect}
@@ -66,7 +65,7 @@ const FormItemCheckBoxQuestion = ({ value = [], onChange, showCorrectOption, que
               </Col>
             ))
           : question.answer.map((item: any, idx: any) => (
-              <Col key={idx} xs={12} lg={6}>
+              <Col key={idx} span={6}>
                 <Checkbox
                   key={idx}
                   value={`${idx + 1} ` + item.isCorrect}
@@ -90,20 +89,20 @@ const Question: React.FunctionComponent<IQuestionProps> = ({
   form,
 }) => {
   const [showCorrectOption, setShowCorrectOption] = useState(false);
+  const valueAnswer = Form.useWatch([`question-${keyIdx}`]);
+
+  const isSelectedAnswer = valueAnswer?.filter(Boolean);
 
   const ansersCorrect = useMemo(() => {
     return question.answer?.filter((answer) => answer.isCorrect);
   }, [question.answer]);
 
   if (!isShow) return <></>;
-  console.log({
-    ansersCorrect,
-  });
 
   return (
     <div className={styles.questionWrap}>
       <div className='index-que'>Q{keyIdx}</div>
-      <div className='overall-question'>
+      <div className='overall-question mb-4'>
         <div
           className={styles.contentQuestion}
           dangerouslySetInnerHTML={{
@@ -122,13 +121,13 @@ const Question: React.FunctionComponent<IQuestionProps> = ({
         </div>
       </div>
 
-      <Form.Item name={`question-${keyIdx}`}>
+      <Form.Item name={`question-${keyIdx}`} preserve>
         <FormItemCheckBoxQuestion showCorrectOption={showCorrectOption} question={question} />
       </Form.Item>
 
       {showCorrectOption && (
         <div className={styles.explanation}>
-          <div className={styles.explainTitle}>Explain</div>
+          <div className={styles.explainTitle}>解 説</div>
 
           <div className={styles.explainBody}>
             {ansersCorrect?.map((it) => (
@@ -162,7 +161,7 @@ const Question: React.FunctionComponent<IQuestionProps> = ({
           onClick={() => {
             showCorrectOption ? nextStep(question) : setShowCorrectOption(true);
           }}
-          // disabled={showCorrectOption}
+          disabled={!isSelectedAnswer?.length}
         >
           <div>次&nbsp;</div>
           <img src={next} alt='' />

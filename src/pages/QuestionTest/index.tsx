@@ -125,6 +125,7 @@ const QuestionTest = () => {
               handleNavigate={(idx) => {
                 setSelectedQuestion(idx);
               }}
+              backStep={backStep}
             />
           )}
         </Form>

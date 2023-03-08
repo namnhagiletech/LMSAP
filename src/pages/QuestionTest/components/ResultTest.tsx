@@ -1,13 +1,21 @@
 import { Col, Row } from 'antd';
+import classNames from 'classnames';
 import React from 'react';
-import { ResultTestWrapper } from '../styled';
+import back from '../../../assets/images/back.svg';
+
+import styles from './index.module.scss';
 
 interface IResultTestProps {
   listAnswer: any[];
   handleNavigate: (p: number) => void;
+  backStep: () => void;
 }
 
-const ResultTest: React.FunctionComponent<IResultTestProps> = ({ listAnswer, handleNavigate }) => {
+const ResultTest: React.FunctionComponent<IResultTestProps> = ({
+  listAnswer,
+  handleNavigate,
+  backStep,
+}) => {
   const correctAnswer = listAnswer.filter((item) => item.correct).length;
   const percentCorrect = correctAnswer / listAnswer.length;
 
@@ -51,7 +59,7 @@ const ResultTest: React.FunctionComponent<IResultTestProps> = ({ listAnswer, han
   };
 
   return (
-    <ResultTestWrapper>
+    <div className={styles.resultWrap}>
       {showTitleCongrats(percentCorrect)}
 
       <Row gutter={16} className='list-answer'>
@@ -70,8 +78,17 @@ const ResultTest: React.FunctionComponent<IResultTestProps> = ({ listAnswer, han
           );
         })}
       </Row>
-      <div className='box-note'>問題・解説を確認したい方は問題番号をクリックしてください</div>
-    </ResultTestWrapper>
+      <p className={classNames(styles.boxNote, 'mb-10')}>
+        <span>問題・解説を確認したい方は問題番号をクリックしてください</span>
+      </p>
+
+      <Row align={'middle'} justify='center'>
+        <button className={styles.btn} onClick={backStep}>
+          <img src={back} alt='' />
+          <div>&nbsp;戻る</div>
+        </button>
+      </Row>
+    </div>
   );
 };
 
