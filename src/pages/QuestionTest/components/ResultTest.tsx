@@ -16,7 +16,7 @@ const ResultTest: React.FunctionComponent<IResultTestProps> = ({
   handleNavigate,
   backStep,
 }) => {
-  const correctAnswer = listAnswer.filter((item) => item.correct).length;
+  const correctAnswer = listAnswer.filter((item) => item.isCorrect).length;
   const percentCorrect = correctAnswer / listAnswer.length;
 
   const showTitleCongrats = (percent: number) => {
@@ -68,7 +68,7 @@ const ResultTest: React.FunctionComponent<IResultTestProps> = ({
             <Col key={idx} span={12}>
               <div className='col-center' onClick={() => handleNavigate(idx)}>
                 <div className='index-ans'>Q{idx + 1}</div>
-                {item.correct ? (
+                {item.isCorrect ? (
                   <div className='correct-answer' />
                 ) : (
                   <div className='wrong-answer'>X</div>

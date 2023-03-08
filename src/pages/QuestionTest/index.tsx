@@ -1,6 +1,5 @@
-import { Form, Spin } from 'antd';
-import { isEqualArray } from '../../helpers/utils';
-import { useMemo, useRef, useState } from 'react';
+import { Form, Row, Spin } from 'antd';
+import { useRef, useState } from 'react';
 
 import Question from './components/Question';
 import ResultTest from './components/ResultTest';
@@ -12,96 +11,119 @@ import { Answer, QuestionType } from './type';
 import IconClose from 'src/components/icons/IconClose';
 import ModalCloseExam from './ModalCloseExam/ModalCloseExam';
 
+const formatBody = (ansersList: any[]) => {
+  return ansersList?.reduce((acc, it) => {
+    const keys = Object.keys(it)?.[0];
+    const values = it?.[keys];
+
+    const [, questionId, subjectId] = keys?.split('_');
+
+    const answers = values?.map((val: any) => {
+      const [answerId, answerValue] = val?.split('_');
+
+      return {
+        answerId: answerId,
+        isCorrect: answerValue === 'true',
+      };
+    });
+
+    acc.push({
+      answers,
+      questionId,
+      subjectId,
+    });
+
+    return acc;
+  }, []);
+};
+
 const QuestionTest = () => {
   const [form] = Form.useForm();
   const [selectedQuestion, setSelectedQuestion] = useState(0);
   const { data, loading } = useQuery(GET_QUESTION_AI);
-  const refListAnswer: any = useRef();
-  const refCurrentQuestion: any = useRef();
+  const refListAnswer: any = useRef([]);
+  const refAnswersFormat: any = useRef([]);
 
   const [submitQuestionAi] = useMutation(SUBMIT_QUESTION_AI);
 
-  const correctOption = useMemo(() => {
-    return data?.getQuestionAi?.map((item: QuestionType) => {
-      const arrrayIndex: any = [];
-
-      item.answer.forEach((answer: Answer, index: any) => {
-        if (answer.isCorrect) arrrayIndex.push(index + 1);
-      });
-
-      return arrrayIndex;
-    });
-  }, [data?.getQuestionAi]);
-
   const nextStep = (questionSelected?: QuestionType) => {
-    refCurrentQuestion.current = questionSelected;
+    if (refAnswersFormat?.current?.length) {
+      setSelectedQuestion(10);
+      return;
+    }
+
+    if (questionSelected && !refAnswersFormat.current?.length) {
+      const allValues = form.getFieldsValue();
+
+      refListAnswer.current.push(allValues);
+    }
+
+    if (selectedQuestion + 1 === 10 && !refAnswersFormat.current?.length) {
+      handleSubmitAnswers();
+      return;
+    }
+
     setSelectedQuestion(selectedQuestion + 1);
-    check();
   };
   const backStep = () => {
     setSelectedQuestion(selectedQuestion - 1);
   };
 
-  const convertAnswerArray = (arr: any) => {
-    return arr.map((item1: any, idx: any) => {
-      if (!!item1 && !!item1.length) {
-        let optionArr: any = [];
-        item1.forEach((item2: any) => {
-          const list = item2.split(' ');
-          optionArr.push(+list[0]);
-        });
-        return {
-          order: idx + 1,
-          option: optionArr,
-          correct: isEqualArray(optionArr, correctOption[idx]),
-        };
-      }
+  const handleSubmitAnswers = async () => {
+    refAnswersFormat.current = formatBody(refListAnswer.current);
 
+    await submitQuestionAi({
+      variables: {
+        data: {
+          questions: refAnswersFormat.current,
+        },
+      },
+    });
+
+    refAnswersFormat.current = refAnswersFormat.current?.map((it: any) => {
+      const questionInData = data?.getQuestionAi?.find(
+        (questionIt: QuestionType) => questionIt?.id === it?.questionId,
+      );
+
+      const countAnswerCorrect = questionInData?.answer?.filter(
+        (answerItem: Answer) => answerItem.isCorrect,
+      )?.length;
+
+      const countAnswerCorrectUserChoosed = it?.answers?.filter(
+        (answerItem: any) => answerItem?.isCorrect,
+      )?.length;
       return {
-        order: idx + 1,
-        option: undefined,
-        correct: false,
+        ...it,
+        isCorrect: countAnswerCorrect === countAnswerCorrectUserChoosed,
       };
     });
+
+    setSelectedQuestion(10);
   };
 
-  const check = () => {
-    form.validateFields().then((value) => {
-      let lastChoice = [];
-      for (let i = 1; i <= data?.getQuestionAi?.length; i++) {
-        lastChoice.push(value[`question-${i}`]);
-      }
-
-      refListAnswer.current = convertAnswerArray(lastChoice);
-
-      if (refCurrentQuestion.current?.id) {
-        const found = refListAnswer.current?.findLast((element: any) => element?.option?.length);
-
-        submitQuestionAi({
-          variables: {
-            data: {
-              isCorrect: found?.correct ?? false,
-              questionId: refCurrentQuestion.current?.id,
-              subjectId: refCurrentQuestion.current?.subjectId,
-            },
-          },
-        });
-      }
-    });
-  };
-
-  if (loading) return <Spin />;
+  if (loading)
+    return (
+      <Row align={'middle'} justify='center'>
+        <Spin />
+      </Row>
+    );
 
   if (!data?.getQuestionAi?.length) return null;
 
   return (
     <div className={styles.wrap}>
       <div>
-        <ModalCloseExam>
-          <span className={styles.btnClose}>
+        {!refAnswersFormat.current?.length || selectedQuestion === 10 ? (
+          <ModalCloseExam>
+            <span className={styles.btnClose}>
+              <IconClose />
+            </span>
+          </ModalCloseExam>
+        ) : (
+          <span className={styles.btnClose} onClick={() => setSelectedQuestion(10)}>
             <IconClose />
           </span>
-        </ModalCloseExam>
+        )}
         <Form form={form}>
           {data?.getQuestionAi?.map((question: QuestionType, idx: any) => (
             <Question
@@ -121,7 +143,7 @@ const QuestionTest = () => {
 
           {selectedQuestion === data?.getQuestionAi?.length && (
             <ResultTest
-              listAnswer={refListAnswer.current}
+              listAnswer={refAnswersFormat.current}
               handleNavigate={(idx) => {
                 setSelectedQuestion(idx);
               }}

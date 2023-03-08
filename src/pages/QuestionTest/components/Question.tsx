@@ -57,7 +57,7 @@ const FormItemCheckBoxQuestion = ({ value = [], onChange, showCorrectOption, que
               <Col key={idx} span={6}>
                 <Checkbox
                   key={idx}
-                  value={`${idx + 1} ` + item.isCorrect}
+                  value={`${item?.id}_${item.isCorrect}`}
                   className={item.isCorrect && showCorrectOption ? 'show-more' : undefined}
                 >
                   <div className={styles.txtAnswer}>{item.isCorrect ? '正しい' : '誤っている'}</div>
@@ -68,7 +68,7 @@ const FormItemCheckBoxQuestion = ({ value = [], onChange, showCorrectOption, que
               <Col key={idx} span={6}>
                 <Checkbox
                   key={idx}
-                  value={`${idx + 1} ` + item.isCorrect}
+                  value={`${item?.id}_${item.isCorrect}`}
                   className={item.isCorrect && showCorrectOption ? 'show-more' : undefined}
                 >
                   <div className={styles.txtAnswer}>{idx + 1}</div>
@@ -86,10 +86,9 @@ const Question: React.FunctionComponent<IQuestionProps> = ({
   isShow,
   nextStep,
   backStep,
-  form,
 }) => {
   const [showCorrectOption, setShowCorrectOption] = useState(false);
-  const valueAnswer = Form.useWatch([`question-${keyIdx}`]);
+  const valueAnswer = Form.useWatch([`question_${question?.id}_${question?.subjectId}`]);
 
   const isSelectedAnswer = valueAnswer?.filter(Boolean);
 
@@ -121,7 +120,7 @@ const Question: React.FunctionComponent<IQuestionProps> = ({
         </div>
       </div>
 
-      <Form.Item name={`question-${keyIdx}`} preserve>
+      <Form.Item name={`question_${question?.id}_${question?.subjectId}`} preserve>
         <FormItemCheckBoxQuestion showCorrectOption={showCorrectOption} question={question} />
       </Form.Item>
 
