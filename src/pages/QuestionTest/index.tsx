@@ -7,23 +7,25 @@ import { useMutation, useQuery } from '@apollo/client';
 import { GET_QUESTION_AI, SUBMIT_QUESTION_AI } from 'src/services/question-ai';
 
 import styles from './index.module.scss';
-import { Answer, QuestionType } from './type';
+import { QuestionType } from './type';
 import IconClose from 'src/components/icons/IconClose';
 import ModalCloseExam from './ModalCloseExam/ModalCloseExam';
 
-const formatBody = (ansersList: any[]) => {
+const formatBody = (ansersList: any[], questionList: QuestionType[]) => {
   return ansersList?.reduce((acc, it) => {
     const keys = Object.keys(it)?.[0];
     const values = it?.[keys];
 
     const [, questionId, subjectId] = keys?.split('_');
 
-    const answers = values?.map((val: any) => {
-      const [answerId, answerValue] = val?.split('_');
+    const questionInQuestionList = questionList?.find((val) => val.id === questionId);
+
+    const answers = questionInQuestionList?.answer?.map((answerItem) => {
+      const isCorrect = values?.find((answer: string) => answer === answerItem?.id);
 
       return {
-        answerId: answerId,
-        isCorrect: answerValue === 'true',
+        answerId: answerItem?.id,
+        isCorrect: !!isCorrect,
       };
     });
 
@@ -44,7 +46,7 @@ const QuestionTest = () => {
   const refListAnswer: any = useRef([]);
   const refAnswersFormat: any = useRef([]);
 
-  const [submitQuestionAi] = useMutation(SUBMIT_QUESTION_AI);
+  const [submitQuestionAi, { data: submitQuestionAiData }] = useMutation(SUBMIT_QUESTION_AI);
 
   const nextStep = (questionSelected?: QuestionType) => {
     if (refAnswersFormat?.current?.length) {
@@ -70,7 +72,7 @@ const QuestionTest = () => {
   };
 
   const handleSubmitAnswers = async () => {
-    refAnswersFormat.current = formatBody(refListAnswer.current);
+    refAnswersFormat.current = formatBody(refListAnswer.current, data?.getQuestionAi);
 
     await submitQuestionAi({
       variables: {
@@ -80,23 +82,23 @@ const QuestionTest = () => {
       },
     });
 
-    refAnswersFormat.current = refAnswersFormat.current?.map((it: any) => {
-      const questionInData = data?.getQuestionAi?.find(
-        (questionIt: QuestionType) => questionIt?.id === it?.questionId,
-      );
+    // refAnswersFormat.current = refAnswersFormat.current?.map((it: any) => {
+    //   const questionInData = data?.getQuestionAi?.find(
+    //     (questionIt: QuestionType) => questionIt?.id === it?.questionId,
+    //   );
 
-      const countAnswerCorrect = questionInData?.answer?.filter(
-        (answerItem: Answer) => answerItem.isCorrect,
-      )?.length;
+    //   const countAnswerCorrect = questionInData?.answer?.filter(
+    //     (answerItem: Answer) => answerItem.isCorrect,
+    //   )?.length;
 
-      const countAnswerCorrectUserChoosed = it?.answers?.filter(
-        (answerItem: any) => answerItem?.isCorrect,
-      )?.length;
-      return {
-        ...it,
-        isCorrect: countAnswerCorrect === countAnswerCorrectUserChoosed,
-      };
-    });
+    //   const countAnswerCorrectUserChoosed = it?.answers?.filter(
+    //     (answerItem: any) => answerItem?.isCorrect,
+    //   )?.length;
+    //   return {
+    //     ...it,
+    //     isCorrect: countAnswerCorrect === countAnswerCorrectUserChoosed,
+    //   };
+    // });
 
     setSelectedQuestion(10);
   };
@@ -141,15 +143,16 @@ const QuestionTest = () => {
           <Confirmation listAnswer={refListAnswer.current} nextStep={nextStep} />
         )} */}
 
-          {selectedQuestion === data?.getQuestionAi?.length && (
-            <ResultTest
-              listAnswer={refAnswersFormat.current}
-              handleNavigate={(idx) => {
-                setSelectedQuestion(idx);
-              }}
-              backStep={backStep}
-            />
-          )}
+          {selectedQuestion === data?.getQuestionAi?.length &&
+            submitQuestionAiData?.submitAnswerQuestionAi?.length && (
+              <ResultTest
+                listAnswer={submitQuestionAiData?.submitAnswerQuestionAi ?? []}
+                handleNavigate={(idx) => {
+                  setSelectedQuestion(idx);
+                }}
+                backStep={backStep}
+              />
+            )}
         </Form>
       </div>
     </div>

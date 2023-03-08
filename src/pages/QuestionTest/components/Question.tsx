@@ -57,7 +57,7 @@ const FormItemCheckBoxQuestion = ({ value = [], onChange, showCorrectOption, que
               <Col key={idx} span={6}>
                 <Checkbox
                   key={idx}
-                  value={`${item?.id}_${item.isCorrect}`}
+                  value={item?.id}
                   className={item.isCorrect && showCorrectOption ? 'show-more' : undefined}
                 >
                   <div className={styles.txtAnswer}>{item.isCorrect ? '正しい' : '誤っている'}</div>
@@ -68,7 +68,7 @@ const FormItemCheckBoxQuestion = ({ value = [], onChange, showCorrectOption, que
               <Col key={idx} span={6}>
                 <Checkbox
                   key={idx}
-                  value={`${item?.id}_${item.isCorrect}`}
+                  value={item?.id}
                   className={item.isCorrect && showCorrectOption ? 'show-more' : undefined}
                 >
                   <div className={styles.txtAnswer}>{idx + 1}</div>

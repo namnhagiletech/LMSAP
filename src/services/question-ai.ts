@@ -37,14 +37,6 @@ export const SUBMIT_QUESTION_AI = gql`
     submitAnswerQuestionAi(data: $data) {
       id
       isCorrect
-      question {
-        id
-        level
-        schoolId
-        status
-        subjectId
-        title
-      }
     }
   }
 `;
