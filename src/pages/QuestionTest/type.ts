@@ -13,6 +13,7 @@ export interface QuestionType {
   status: string;
   subjectId: string;
   title: string;
+  description: string;
 }
 
 export interface Answer {
