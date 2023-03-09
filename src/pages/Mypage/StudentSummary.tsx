@@ -141,7 +141,11 @@ const StudentSummary = ({ dataSelfStatistic, onShowHistory }: TProps) => {
                   </td>
                   <td>
                     <ProgressCommon
-                      percent={(subjectItem.totalInCorrect / subjectItem.totalQuestion) * 100}
+                      percent={
+                        ((subjectItem.totalInCorrect + subjectItem.totalCorrect) /
+                          subjectItem.totalQuestion) *
+                        100
+                      }
                       successPercent={(subjectItem.totalCorrect / subjectItem.totalQuestion) * 100}
                     />
                   </td>
