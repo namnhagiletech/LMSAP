@@ -105,7 +105,7 @@ const Question: React.FunctionComponent<IQuestionProps> = ({
         <div
           className={styles.contentQuestion}
           dangerouslySetInnerHTML={{
-            __html: question.title,
+            __html: question.title?.split('\n')?.join('<br />'),
           }}
         />
 
