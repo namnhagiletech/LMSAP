@@ -3,6 +3,7 @@ export const ROUTE_PATH = {
   SUBJECT_QUESTION: '/subject-question',
   EXAMINATION: '/examination',
   AI_TEST: '/AI-test',
+  AI_TEST_BY_SUBJECT: '/AI-test/:id',
   CHAT: '/chat',
   EXPLAIN: '/explain',
   MY_PAGE: '/mypage',

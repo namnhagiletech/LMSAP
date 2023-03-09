@@ -1,15 +1,20 @@
 import { Form, Row, Spin } from 'antd';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import Question from './components/Question';
 import ResultTest from './components/ResultTest';
-import { useMutation, useQuery } from '@apollo/client';
-import { GET_QUESTION_AI, SUBMIT_QUESTION_AI } from 'src/services/question-ai';
+import { useLazyQuery, useMutation } from '@apollo/client';
+import {
+  GET_QUESTION_AI,
+  GET_QUESTION_AI_BY_SUBJECT,
+  SUBMIT_QUESTION_AI,
+} from 'src/services/question-ai';
 
 import styles from './index.module.scss';
 import { QuestionType } from './type';
 import IconClose from 'src/components/icons/IconClose';
 import ModalCloseExam from './ModalCloseExam/ModalCloseExam';
+import { useParams } from 'react-router-dom';
 
 const formatBody = (ansersList: any[], questionList: QuestionType[]) => {
   return ansersList?.reduce((acc, it) => {
@@ -41,13 +46,28 @@ const formatBody = (ansersList: any[], questionList: QuestionType[]) => {
 
 const QuestionTest = () => {
   const [form] = Form.useForm();
+  const params = useParams();
   const [selectedQuestion, setSelectedQuestion] = useState(0);
-  const { data, loading } = useQuery(GET_QUESTION_AI);
+  const [getQuestionAi, { data, loading }] = useLazyQuery(GET_QUESTION_AI);
+  const [getQuestionBySubject, { data: questionBySubject, loading: loadingBySubject }] =
+    useLazyQuery(GET_QUESTION_AI_BY_SUBJECT);
   const refListAnswer: any = useRef([]);
   const refAnswersFormat: any = useRef([]);
 
-  const [submitQuestionAi, { data: submitQuestionAiData }] = useMutation(SUBMIT_QUESTION_AI);
+  useEffect(() => {
+    if (params.id) {
+      getQuestionBySubject({
+        variables: {
+          subjectId: params?.id,
+        },
+      });
+    } else {
+      getQuestionAi();
+    }
+  }, [params.id]);
 
+  const questionData = params?.id ? questionBySubject?.getQuestionAiBySubject : data?.getQuestionAi;
+  const [submitQuestionAi, { data: submitQuestionAiData }] = useMutation(SUBMIT_QUESTION_AI);
   const nextStep = (questionSelected?: QuestionType) => {
     if (refAnswersFormat?.current?.length) {
       setSelectedQuestion(10);
@@ -73,7 +93,7 @@ const QuestionTest = () => {
 
   const handleSubmitAnswers = async () => {
     try {
-      refAnswersFormat.current = formatBody(refListAnswer.current, data?.getQuestionAi);
+      refAnswersFormat.current = formatBody(refListAnswer.current, questionData);
 
       await submitQuestionAi({
         variables: {
@@ -109,14 +129,14 @@ const QuestionTest = () => {
     }
   };
 
-  if (loading)
+  if (loading || loadingBySubject)
     return (
       <Row align={'middle'} justify='center'>
         <Spin />
       </Row>
     );
 
-  if (!data?.getQuestionAi?.length) return null;
+  if (!questionData?.length) return null;
 
   return (
     <div className={styles.wrap}>
@@ -133,7 +153,7 @@ const QuestionTest = () => {
           </span>
         )}
         <Form form={form}>
-          {data?.getQuestionAi?.map((question: QuestionType, idx: any) => (
+          {questionData?.map((question: QuestionType, idx: any) => (
             <Question
               key={question?.id}
               isShow={idx === selectedQuestion}
@@ -149,7 +169,7 @@ const QuestionTest = () => {
           <Confirmation listAnswer={refListAnswer.current} nextStep={nextStep} />
         )} */}
 
-          {selectedQuestion === data?.getQuestionAi?.length &&
+          {selectedQuestion === questionData?.length &&
             submitQuestionAiData?.submitAnswerQuestionAi?.length && (
               <ResultTest
                 listAnswer={submitQuestionAiData?.submitAnswerQuestionAi ?? []}
