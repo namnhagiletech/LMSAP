@@ -18,9 +18,19 @@ interface IQuestionProps {
 const Media = ({ url }: { url?: string }) => {
   if (!url) return null;
 
-  if (url.includes('mp4')) return <video src={url} />;
+  if (url.includes('mp4'))
+    return (
+      <video
+        src={url?.startsWith('http') ? url : process.env.REACT_APP_API_ENDPOINT_UPLOAD + url}
+      />
+    );
 
-  return <img src={url} alt='' />;
+  return (
+    <img
+      src={url?.startsWith('http') ? url : process.env.REACT_APP_API_ENDPOINT_UPLOAD + url}
+      alt=''
+    />
+  );
 };
 
 const FormItemCheckBoxQuestion = ({ value = [], onChange, showCorrectOption, question }: any) => {

@@ -72,35 +72,41 @@ const QuestionTest = () => {
   };
 
   const handleSubmitAnswers = async () => {
-    refAnswersFormat.current = formatBody(refListAnswer.current, data?.getQuestionAi);
+    try {
+      refAnswersFormat.current = formatBody(refListAnswer.current, data?.getQuestionAi);
 
-    await submitQuestionAi({
-      variables: {
-        data: {
-          questions: refAnswersFormat.current,
+      await submitQuestionAi({
+        variables: {
+          data: {
+            questions: refAnswersFormat.current,
+          },
         },
-      },
-    });
+      });
 
-    // refAnswersFormat.current = refAnswersFormat.current?.map((it: any) => {
-    //   const questionInData = data?.getQuestionAi?.find(
-    //     (questionIt: QuestionType) => questionIt?.id === it?.questionId,
-    //   );
+      // refAnswersFormat.current = refAnswersFormat.current?.map((it: any) => {
+      //   const questionInData = data?.getQuestionAi?.find(
+      //     (questionIt: QuestionType) => questionIt?.id === it?.questionId,
+      //   );
 
-    //   const countAnswerCorrect = questionInData?.answer?.filter(
-    //     (answerItem: Answer) => answerItem.isCorrect,
-    //   )?.length;
+      //   const countAnswerCorrect = questionInData?.answer?.filter(
+      //     (answerItem: Answer) => answerItem.isCorrect,
+      //   )?.length;
 
-    //   const countAnswerCorrectUserChoosed = it?.answers?.filter(
-    //     (answerItem: any) => answerItem?.isCorrect,
-    //   )?.length;
-    //   return {
-    //     ...it,
-    //     isCorrect: countAnswerCorrect === countAnswerCorrectUserChoosed,
-    //   };
-    // });
+      //   const countAnswerCorrectUserChoosed = it?.answers?.filter(
+      //     (answerItem: any) => answerItem?.isCorrect,
+      //   )?.length;
+      //   return {
+      //     ...it,
+      //     isCorrect: countAnswerCorrect === countAnswerCorrectUserChoosed,
+      //   };
+      // });
 
-    setSelectedQuestion(10);
+      setSelectedQuestion(10);
+    } catch (error) {
+      console.log({
+        error,
+      });
+    }
   };
 
   if (loading)
