@@ -13,6 +13,7 @@ export const GET_QUESTION_AI = gql`
   query GetQuestionAi {
     getQuestionAi {
       accountId
+      description
       answer {
         explainImageOrVideo
         explainText

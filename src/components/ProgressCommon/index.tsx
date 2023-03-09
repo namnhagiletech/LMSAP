@@ -10,11 +10,11 @@ const ProgressCommon = ({
 }) => {
   return (
     <Progress
-      percent={percent || 85}
+      percent={percent || 0}
       strokeColor='#B4B4B5'
-      trailColor='#111'
+      trailColor='#231815'
       showInfo={false}
-      success={{ percent: successPercent || 70, strokeColor: '#FF5277' }}
+      success={{ percent: successPercent || 0, strokeColor: '#FF5277' }}
     />
   );
 };

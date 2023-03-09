@@ -115,9 +115,17 @@ const Question: React.FunctionComponent<IQuestionProps> = ({
         <div
           className={styles.contentQuestion}
           dangerouslySetInnerHTML={{
-            __html: question.title?.split('\n')?.join('<br />'),
+            __html: question?.title?.split('\n')?.join('<br />'),
           }}
         />
+        {question?.description && (
+          <div
+            className={styles.contentQuestion}
+            dangerouslySetInnerHTML={{
+              __html: question?.description?.split('\n')?.join('<br />'),
+            }}
+          />
+        )}
 
         <div className={styles.listAnswer}>
           {question.answer.map((item, idx) => (

@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import './index.scss';
-import { MENU } from '../../constants/COMMON_CONSTANTS';
-import { Link } from 'react-router-dom';
-import ArrowRight from '../../assets/icons/ArrowRight';
+import { useMutation } from '@apollo/client';
 import { notification } from 'antd';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
-import { useMutation, useQuery } from '@apollo/client';
-import { logoutMutation } from '../../services/respository/useMutations';
-import { GET_INFO } from '../../services/respository/useQueries';
-import usePrevious from '../../hooks/usePrevious';
-import { useNavbar } from 'src/store/navbar/useNavbarStore';
+import { Link } from 'react-router-dom';
 import { useAuthStore } from 'src/store/auth/useAuthStore';
+import { useNavbar } from 'src/store/navbar/useNavbarStore';
+import { useProfileStore } from 'src/store/profile/useProfileStore';
+import ArrowRight from '../../assets/icons/ArrowRight';
+import { MENU } from '../../constants/COMMON_CONSTANTS';
+import usePrevious from '../../hooks/usePrevious';
+import { logoutMutation } from '../../services/respository/useMutations';
+import './index.scss';
 
 interface Menu {
   name: string;
@@ -23,9 +23,9 @@ const Sidernav = () => {
   const { pathname } = useLocation();
   const { showNavbar, onVisibleNavbar } = useNavbar();
   const [currentPath, setCurrentPath] = useState<string>();
-  const { data } = useQuery(GET_INFO);
   const [logout] = useMutation(logoutMutation);
   const oldPath = usePrevious(currentPath);
+  const { profile } = useProfileStore();
 
   const { onLogout: logoutLocalstore } = useAuthStore();
 
@@ -37,10 +37,10 @@ const Sidernav = () => {
   }, [pathname, currentPath, oldPath, showNavbar, onVisibleNavbar]);
 
   const onLogout = () => {
-    if (data.me.id) {
+    if (profile.id) {
       logout({
         variables: {
-          accountId: data.me.id,
+          accountId: profile.id,
         },
       })
         .then((res) => {

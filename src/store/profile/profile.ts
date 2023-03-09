@@ -4,9 +4,9 @@ export interface IProfile {
   id: number;
   // role: string;
   // identityNumber: number;
-  // email: string;
+  email: string;
   // status: string;
-  // fullName: string;
+  fullName: string;
   // school: {
   //   name: string;
   // };
