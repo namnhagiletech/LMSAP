@@ -91,6 +91,14 @@ export const router = createBrowserRouter([
             ),
           },
           {
+            path: ROUTE_PATH.AI_TEST_BY_SUBJECT,
+            element: (
+              <Suspense fallback={null}>
+                <QuestionTest />
+              </Suspense>
+            ),
+          },
+          {
             path: ROUTE_PATH.CHAT,
             element: (
               <Suspense fallback={null}>
