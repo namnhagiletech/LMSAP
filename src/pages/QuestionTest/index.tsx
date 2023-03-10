@@ -69,8 +69,10 @@ const QuestionTest = () => {
 
   const questionData = params?.id
     ? questionBySubject?.getQuestionAiBySubject?.questions
-    : data?.getQuestionAi;
-  const testId: number = questionBySubject?.getQuestionAiBySubject?.aiTestId;
+    : data?.getQuestionAi?.questions;
+  const testId: number = params?.id
+    ? questionBySubject?.getQuestionAiBySubject?.aiTestId
+    : data?.getQuestionAi?.aiTestId;
   const [submitQuestionAi, { data: submitQuestionAiData }] = useMutation(SUBMIT_QUESTION_AI);
   const nextStep = (questionSelected?: QuestionType) => {
     if (refAnswersFormat?.current?.length) {
