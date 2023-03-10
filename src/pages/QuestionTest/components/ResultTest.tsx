@@ -18,7 +18,6 @@ const ResultTest: React.FunctionComponent<IResultTestProps> = ({
 }) => {
   const correctAnswer = listAnswer.filter((item) => item.isCorrect).length;
   const percentCorrect = correctAnswer / listAnswer.length;
-
   const showTitleCongrats = (percent: number) => {
     switch (true) {
       case percent < 1 && percent >= 0.8:

@@ -1,6 +1,6 @@
-import { useQuery } from '@apollo/client';
+import { useLazyQuery, useQuery } from '@apollo/client';
 import { Row, Spin } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { GET_SELF_STATISTIC, TSelfStatistic } from 'src/services/statistics';
 import Down from '../../assets/icons/Down';
 import LeftIcon from '../../assets/icons/Left';
@@ -8,16 +8,28 @@ import MypageIcon from '../../assets/icons/Mypage';
 import TitleCommon from '../../components/TitleCommon';
 import './index.scss';
 import StudentSummary from './StudentSummary';
+import { AI_TEST_RESULT } from 'src/services/test-result';
+import dayjs from 'dayjs';
 
 const Mypage = () => {
   const [activeTab, setActiveTab] = useState('national-exam');
   const [showFullScores, setShowFullScores] = useState(false);
 
   const [showHistory, setShowHistory] = useState(false);
-
+  const [getAiTestResult, { data: aiTestResult }] = useLazyQuery(AI_TEST_RESULT);
   const { data: dataSelfStatistic, loading } = useQuery<{
     questionAiSelfStatistic: TSelfStatistic[];
   }>(GET_SELF_STATISTIC);
+
+  useEffect(() => {
+    getAiTestResult({
+      variables: {
+        skip: 1,
+        take: 10,
+        where: {},
+      },
+    });
+  }, []);
 
   const onShowHistory = () => {
     setShowHistory(!showHistory);
@@ -235,14 +247,17 @@ const Mypage = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr className='bg-white'>
-                  <td>22/05/20</td>
-                  <td>8 / 10点</td>
-                </tr>
-                <tr className='bg-[#f7f7f7]'>
-                  <td>22/05/20</td>
-                  <td>8 / 10点</td>
-                </tr>
+                {aiTestResult?.aiTestResult?.aiTests?.map((aiTest: any, index: number) => {
+                  return (
+                    <tr
+                      className={index % 2 === 0 ? 'bg-[#f7f7f7]' : 'bg-white'}
+                      key={aiTest.createdAt}
+                    >
+                      <td>{dayjs(aiTest.createdAt).format('DD/MM/YYYY')}</td>
+                      <td>{aiTest.point} / 10点</td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>

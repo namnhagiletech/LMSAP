@@ -13,6 +13,7 @@ interface ISubjectProps {
 }
 const QuestionBySubject = () => {
   const { data: subjects, loading } = useQuery(GET_SUBJECTS);
+
   if (loading)
     return (
       <Row align={'middle'} justify='center'>

@@ -135,7 +135,6 @@ const QuestionTest = () => {
       });
     }
   };
-  console.log(questionData);
   if (loading || loadingBySubject)
     return (
       <Row align={'middle'} justify='center'>
