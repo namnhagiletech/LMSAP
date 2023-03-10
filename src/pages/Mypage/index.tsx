@@ -54,7 +54,7 @@ const Mypage = () => {
               onClick={() => setActiveTab('trial-exam')}
               className={activeTab === 'trial-exam' ? 'active trial-exam' : ''}
             >
-              ランダム模試
+              セルフ模試
             </li>
             <li
               onClick={() => setActiveTab('mini-test')}
