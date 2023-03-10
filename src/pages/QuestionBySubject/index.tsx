@@ -31,13 +31,20 @@ const QuestionBySubject = () => {
         />
       </div>
       <div className='question-subject__content'>
-        <div className='question-subject__selection'>
-          {subjects.subjects.map((subject: ISubjectProps) => {
+        <div className='question-subject__selection' style={{}}>
+          {subjects.subjects.map((subject: ISubjectProps, index: number) => {
             return (
               <React.Fragment key={subject.id}>
                 <Link
                   to='/AI-test/clf0xac7f0020zr2zmd5f921r'
-                  className='question-subject__selection__subject'
+                  // style={{ height: '100px' }}
+                  className={
+                    index < 4 && index > 0
+                      ? 'question-subject__selection__subject special'
+                      : index > 3 && index < 6
+                      ? 'question-subject__selection__subject special1'
+                      : 'question-subject__selection__subject'
+                  }
                 >
                   {subject.name}
                 </Link>
