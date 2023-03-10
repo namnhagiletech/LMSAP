@@ -54,6 +54,7 @@
   .contentQuestion {
     font-size: 24.5px;
     color: #595757;
+    margin-bottom: 50px;
   }
 
   .listAnswer {
@@ -94,7 +95,6 @@
       max-height: 400px;
       overflow-y: auto;
       width: 100%;
-
       @media only screen and (max-width: 600px) {
         max-height: 300px;
       }

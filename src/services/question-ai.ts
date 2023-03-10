@@ -33,7 +33,8 @@ export const GET_QUESTION_AI = gql`
       identityNumber
       level
       public
-
+      description
+      file
       schoolId
       status
       subjectId
@@ -45,31 +46,35 @@ export const GET_QUESTION_AI = gql`
 export const GET_QUESTION_AI_BY_SUBJECT = gql`
   query GetQuestionAiBySubject($subjectId: String!) {
     getQuestionAiBySubject(data: { subjectId: $subjectId }) {
-      accountId
-      answer {
-        explainImageOrVideo
-        explainText
-        id
-        isCorrect
-        questionId
-        text
-      }
-      category {
-        id
-        name
-      }
-      categoryId
+      aiTestId
+      questions {
+        accountId
+        answer {
+          explainImageOrVideo
+          explainText
+          id
+          isCorrect
+          questionId
+          text
+        }
+        category {
+          id
+          name
+        }
+        categoryId
 
-      chapterId
-      id
-      identityNumber
-      level
-      public
-
-      schoolId
-      status
-      subjectId
-      title
+        chapterId
+        id
+        identityNumber
+        level
+        public
+        file
+        schoolId
+        status
+        subjectId
+        title
+        description
+      }
     }
   }
 `;

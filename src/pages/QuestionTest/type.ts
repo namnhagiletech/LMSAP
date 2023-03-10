@@ -14,6 +14,7 @@ export interface QuestionType {
   subjectId: string;
   title: string;
   description: string;
+  file: any;
 }
 
 export interface Answer {
