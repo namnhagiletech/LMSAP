@@ -91,6 +91,8 @@ const QuestionTest = () => {
     setSelectedQuestion(selectedQuestion - 1);
   };
 
+  console.log('submitQuestionAiData', submitQuestionAiData);
+
   const handleSubmitAnswers = async () => {
     try {
       refAnswersFormat.current = formatBody(refListAnswer.current, questionData);

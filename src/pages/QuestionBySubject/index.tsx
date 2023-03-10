@@ -36,7 +36,7 @@ const QuestionBySubject = () => {
             return (
               <React.Fragment key={subject.id}>
                 <Link
-                  to='/AI-test/clf0xac7f0020zr2zmd5f921r'
+                  to={`/AI-test/${subject.id}`}
                   className={
                     index < 4 && index > 0
                       ? 'question-subject__selection__subject special'
