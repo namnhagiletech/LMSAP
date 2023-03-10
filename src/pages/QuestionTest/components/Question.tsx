@@ -107,7 +107,6 @@ const Question: React.FunctionComponent<IQuestionProps> = ({
   }, [question.answer]);
 
   if (!isShow) return <></>;
-
   return (
     <div className={styles.questionWrap}>
       <div className='index-que'>Q{keyIdx}</div>
@@ -126,7 +125,11 @@ const Question: React.FunctionComponent<IQuestionProps> = ({
             }}
           />
         )}
-
+        {question?.file && (
+          <div className={styles.mediaQuestion}>
+            <Media url={question?.file ?? ''} />
+          </div>
+        )}
         <div className={styles.listAnswer}>
           {question.answer.map((item, idx) => (
             <div key={idx} style={{ display: 'flex', fontSize: '25px' }}>

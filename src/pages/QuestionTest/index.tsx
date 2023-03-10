@@ -31,6 +31,7 @@ const formatBody = (ansersList: any[], questionList: QuestionType[]) => {
       return {
         answerId: answerItem?.id,
         isCorrect: !!isCorrect,
+        questionId: answerItem?.questionId,
       };
     });
 
@@ -66,7 +67,12 @@ const QuestionTest = () => {
     }
   }, [params.id]);
 
-  const questionData = params?.id ? questionBySubject?.getQuestionAiBySubject : data?.getQuestionAi;
+  const questionData = params?.id
+    ? questionBySubject?.getQuestionAiBySubject?.questions
+    : data?.getQuestionAi?.questions;
+  const testId: number = params?.id
+    ? questionBySubject?.getQuestionAiBySubject?.aiTestId
+    : data?.getQuestionAi?.aiTestId;
   const [submitQuestionAi, { data: submitQuestionAiData }] = useMutation(SUBMIT_QUESTION_AI);
   const nextStep = (questionSelected?: QuestionType) => {
     if (refAnswersFormat?.current?.length) {
@@ -91,8 +97,6 @@ const QuestionTest = () => {
     setSelectedQuestion(selectedQuestion - 1);
   };
 
-  console.log('submitQuestionAiData', submitQuestionAiData);
-
   const handleSubmitAnswers = async () => {
     try {
       refAnswersFormat.current = formatBody(refListAnswer.current, questionData);
@@ -100,6 +104,7 @@ const QuestionTest = () => {
       await submitQuestionAi({
         variables: {
           data: {
+            aiTestId: testId,
             questions: refAnswersFormat.current,
           },
         },
@@ -130,7 +135,7 @@ const QuestionTest = () => {
       });
     }
   };
-
+  console.log(questionData);
   if (loading || loadingBySubject)
     return (
       <Row align={'middle'} justify='center'>
@@ -139,7 +144,6 @@ const QuestionTest = () => {
     );
 
   if (!questionData?.length) return null;
-
   return (
     <div className={styles.wrap}>
       <div>
