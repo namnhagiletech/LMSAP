@@ -47,7 +47,7 @@ const StudentSummary = ({ dataSelfStatistic, onShowHistory }: TProps) => {
         },
       ],
     };
-    console.log(dataSelfStatistic);
+    // console.log(dataSelfStatistic);
 
     return {
       dataChart,
