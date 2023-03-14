@@ -1,4 +1,4 @@
-import { Form, Row, Spin } from 'antd';
+import { Form, Row, Spin, notification } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 
 import Question from './components/Question';
@@ -14,7 +14,7 @@ import styles from './index.module.scss';
 import { QuestionType } from './type';
 import IconClose from 'src/components/icons/IconClose';
 import ModalCloseExam from './ModalCloseExam/ModalCloseExam';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const formatBody = (ansersList: any[], questionList: QuestionType[]) => {
   return ansersList?.reduce((acc, it) => {
@@ -49,12 +49,14 @@ const QuestionTest = () => {
   const [form] = Form.useForm();
   const params = useParams();
   const [selectedQuestion, setSelectedQuestion] = useState(0);
-  const [getQuestionAi, { data, loading }] = useLazyQuery(GET_QUESTION_AI);
-  const [getQuestionBySubject, { data: questionBySubject, loading: loadingBySubject }] =
-    useLazyQuery(GET_QUESTION_AI_BY_SUBJECT);
+  const [getQuestionAi, { data, loading, error }] = useLazyQuery(GET_QUESTION_AI);
+  const [
+    getQuestionBySubject,
+    { data: questionBySubject, loading: loadingBySubject, error: errorQuestionSubject },
+  ] = useLazyQuery(GET_QUESTION_AI_BY_SUBJECT);
   const refListAnswer: any = useRef([]);
   const refAnswersFormat: any = useRef([]);
-
+  let history = useNavigate();
   useEffect(() => {
     if (params.id) {
       getQuestionBySubject({
@@ -66,6 +68,15 @@ const QuestionTest = () => {
       getQuestionAi();
     }
   }, [params.id]);
+
+  if (error) {
+    notification.error(error);
+    history(-1);
+  }
+  if (errorQuestionSubject) {
+    notification.error(errorQuestionSubject);
+    history(-1);
+  }
 
   const questionData = params?.id
     ? questionBySubject?.getQuestionAiBySubject?.questions
