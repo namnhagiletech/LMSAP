@@ -24,7 +24,7 @@ const Mypage = () => {
   useEffect(() => {
     getAiTestResult({
       variables: {
-        skip: 1,
+        skip: 0,
         take: 10,
         where: {},
       },
